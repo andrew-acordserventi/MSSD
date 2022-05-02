@@ -1,0 +1,15 @@
+<b>Results for {{this.city}}, {{this.state}}</b>
+<p></p>
+<table>
+<thead>
+<tr><th>ZipCode</th><th>Population</th></tr>
+</thead>
+<tbody>
+    {{#each data}}
+    <tr>
+        <td><a href="../../../../zip/{{this.zip}}">{{this.zip}}</a></td>
+        <td>{{this.pop}}</td>
+    </tr>
+    {{/each}}
+</tbody>
+</table>

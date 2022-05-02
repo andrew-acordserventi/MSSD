@@ -1,0 +1,103 @@
+delete form for students
+                <td><form action="delete_student.php" method="post">
+                    <input type="hidden" name="student_id"
+                            value="<?php echo $student['studentID']; ?>">
+                        <input type="hidden" name="course_id"
+                            value="<?php echo $course_id; ?>">
+                        <input type="submit" value="Delete">
+                </td>
+
+Update price on buy_product page
+<div>
+            <button action="<?php getPrice($product['price'], "order_quantity");?>" 
+                value="Update Price!">Update Price!</button>
+        </div>
+        <div>Price - <?php echo $orderPrice;?></div>
+
+        
+need to code
+
+else {
+    require_once('database.php');
+
+    $orderPrice = (int)$quantityAdded * (float)$product['price'];
+    // from https://stackoverflow.com/questions/9541029/insert-current-date-in-datetime-format-mysql
+    $dateOrdered = date('Y-m-d H:i:s');
+    $newStock = (int)$product['stockQuantity'] - (int)$quantityAdded;
+    $newStock = (int)$newStock;
+    $productName = $product['productName'];
+
+    // Add the order to the database  
+    $query = 'INSERT INTO customer_orders
+                 (UPC, productName, quantity, orderPrice, dateOrdered)
+              VALUES
+                 (:UPC, :productName, :quantityAdded, :orderPrice, :dateOrdered)';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':UPC', $productUPC);
+    $statement->bindValue(':productName', $productName);
+    $statement->bindValue(':quantityAdded', $quantityAdded);
+    $statement->bindValue(':orderPrice', $orderPrice);
+    $statement->bindValue(':dateOrdered', $dateOrdered);
+    $statement->execute();
+    $statement->closeCursor();
+
+    $queryUpdate = "UPDATE sellable_products 
+                    SET stockQuantity=$newStock 
+                    WHERE UPC=$productUPC";
+    $statement2 = $db->prepare($queryUpdate);
+    $statement2->execute();
+    $statement2->closeCursor();
+
+    // Display the Product List page
+    header('Location: index.php');
+}
+
+productName   VARCHAR(255)   NOT NULL,
+
+INSERT INTO customer_orders VALUES
+(1, '2', 'Atorvastatin', 60, 7.2, '2/21/2022'),
+(2, '4', 'Lisinopril', 30, 2.4, '2/18/2022');
+
+Fatal error: Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'Test' in 'field list' in C:\xampp\htdocs\project\update_product.php:50 Stack trace: #0 C:\xampp\htdocs\project\update_product.php(50): PDOStatement->execute() #1 {main} thrown in C:\xampp\htdocs\project\update_product.php on line 50
+
+if ($name != null) {
+    $queryUpdate = "UPDATE sellable_products 
+                    SET productName=$name 
+                    WHERE UPC=$UPC";
+    $statement = $db->prepare($queryUpdate);
+    $statement->execute();
+    $statement->closeCursor();
+}
+if ($description != null) {
+    $queryUpdate = "UPDATE sellable_products 
+                    SET productDescription=$description 
+                    WHERE UPC=$UPC";
+    $statement2 = $db->prepare($queryUpdate);
+    $statement2->execute();
+    $statement2->closeCursor();
+}
+if ($size != null) {
+    $queryUpdate = "UPDATE sellable_products 
+                    SET size=$size 
+                    WHERE UPC=$UPC";
+    $statement2 = $db->prepare($queryUpdate);
+    $statement2->execute();
+    $statement2->closeCursor();
+}
+// needs to be last since others check UPC
+if ($UPC != null) {
+    $queryUpdate = "UPDATE sellable_products 
+                    SET UPC=$UPC 
+                    WHERE UPC=$UPC";
+    $statement2 = $db->prepare($queryUpdate);
+    $statement2->execute();
+    $statement2->closeCursor();
+}
+
+$getProduct = 'SELECT * FROM sellable_products WHERE UPC='.$UPC;
+$statement = $db -> prepare($getProduct);
+$statement->execute();
+$product = $statement->fetch();
+$statement->closeCursor();
+
+when to use quotes and when not to is difficult to explain

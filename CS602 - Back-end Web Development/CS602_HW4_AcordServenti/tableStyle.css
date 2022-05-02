@@ -1,0 +1,11 @@
+/* styling from https://www.w3schools.com/html/tryit.asp?filename=tryhtml_table_intro */
+table {
+    font-family: arial, sans-serif;
+    width: 50%;
+    border: 1px solid black;
+    text-align: left;
+    padding: 5px;
+}
+tr:nth-child(1) {
+    background-color: cadetblue;
+  }

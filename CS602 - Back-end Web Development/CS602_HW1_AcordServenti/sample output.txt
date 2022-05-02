@@ -1,0 +1,155 @@
+HW1a:
+
+[Running] node "c:\Users\Andrew\IdeaProjects\CS602\CS602_HW1_AcordServenti\hw1a.js"
+Looking up zip code 02215
+{ _id: '02215', city: 'BOSTON', pop: 17769, state: 'MA' }
+
+
+Looking up zip code 99999
+undefined
+
+Lookup by city, state BOSTON, MA
+{
+  city: 'BOSTON',
+  state: 'MA',
+  data: [
+    { zip: '02108', pop: 3697 },
+    { zip: '02109', pop: 3926 },
+    { zip: '02110', pop: 957 },
+    { zip: '02111', pop: 3759 },
+    { zip: '02113', pop: 6698 },
+    { zip: '02114', pop: 10246 },
+    { zip: '02115', pop: 25597 },
+    { zip: '02116', pop: 17459 },
+    { zip: '02199', pop: 886 },
+    { zip: '02210', pop: 308 },
+    { zip: '02215', pop: 17769 }
+  ]
+}
+
+
+Lookup by city, state BOSTON, TX
+{ city: 'BOSTON', state: 'TX', data: [ { zip: '75570', pop: 7801 } ] }
+
+
+Lookup by city, state BOSTON, AK
+{ city: 'BOSTON', state: 'AK', data: [] }
+
+
+Getting population by state MA
+Population of MA is 6016425
+
+
+Getting population by state TX
+Population of TX is 16984601
+
+
+Getting population by state AA
+Population of AA is 0
+
+
+
+[Done] exited with code=0 in 0.115 seconds
+
+HW1b:
+
+[Running] node "c:\Users\Andrew\IdeaProjects\CS602\CS602_HW1_AcordServenti\hw1b.js"
+Looking up zip code 02215
+{ _id: '02215', city: 'BOSTON', pop: 17769, state: 'MA' }
+
+
+Looking up zip code 99999
+undefined
+
+
+Lookup by city, state BOSTON, MA
+{
+  city: 'BOSTON',
+  state: 'MA',
+  data: [
+    { zip: '02108', pop: 3697 },
+    { zip: '02109', pop: 3926 },
+    { zip: '02110', pop: 957 },
+    { zip: '02111', pop: 3759 },
+    { zip: '02113', pop: 6698 },
+    { zip: '02114', pop: 10246 },
+    { zip: '02115', pop: 25597 },
+    { zip: '02116', pop: 17459 },
+    { zip: '02199', pop: 886 },
+    { zip: '02210', pop: 308 },
+    { zip: '02215', pop: 17769 }
+  ]
+}
+
+
+Lookup by city, state BOSTON, TX
+{ city: 'BOSTON', state: 'TX', data: [ { zip: '75570', pop: 7801 } ] }
+
+
+Lookup by city, state BOSTON, AK
+{ city: 'BOSTON', state: 'AK', data: [] }
+
+
+Getting population by state MA
+6016425
+
+
+Getting population by state TX
+16984601
+
+
+Getting population by state AA
+0
+
+
+
+[Done] exited with code=0 in 0.107 seconds
+
+HW2c:
+
+[Running] node "c:\Users\Andrew\IdeaProjects\CS602\CS602_HW1_AcordServenti\hw1c.js"
+Looking up zip code 02215
+Event lookupByZipCode raised! 
+ { _id: '02215', city: 'BOSTON', pop: 17769, state: 'MA' }
+
+
+Lookup by city, state BOSTON, MA
+Event lookupByCityState raised! (Handler1)
+ {
+  city: 'BOSTON',
+  state: 'MA',
+  data: [
+    { zip: '02108', pop: 3697 },
+    { zip: '02109', pop: 3926 },
+    { zip: '02110', pop: 957 },
+    { zip: '02111', pop: 3759 },
+    { zip: '02113', pop: 6698 },
+    { zip: '02114', pop: 10246 },
+    { zip: '02115', pop: 25597 },
+    { zip: '02116', pop: 17459 },
+    { zip: '02199', pop: 886 },
+    { zip: '02210', pop: 308 },
+    { zip: '02215', pop: 17769 }
+  ]
+}
+Event lookupByCityState raised! (Handler2)
+
+City: BOSTON, State: MA
+02108 has a population of 3697
+02109 has a population of 3926
+02110 has a population of 957
+02111 has a population of 3759
+02113 has a population of 6698
+02114 has a population of 10246
+02115 has a population of 25597
+02116 has a population of 17459
+02199 has a population of 886
+02210 has a population of 308
+02215 has a population of 17769
+
+
+Getting population by state MA
+Event getPopulationByState raised!
+ { state: 'MA', pop: 6016425 }
+
+[Done] exited with code=0 in 0.103 seconds
