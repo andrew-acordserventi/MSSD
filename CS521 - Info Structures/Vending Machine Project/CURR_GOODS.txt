@@ -1,0 +1,12 @@
+Snickers
+1.29
+10
+A1
+Twix
+1.49
+15
+A2
+Pringles
+1.99
+12
+A3
