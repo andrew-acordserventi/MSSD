@@ -1,0 +1,237 @@
+1. Initial Table Creation
+
+CREATE TABLE Person(
+person_id DECIMAL(12) NOT NULL PRIMARY KEY,
+first_name VARCHAR(32) NOT NULL,
+last_name VARCHAR(32) NOT NULL,
+username VARCHAR(20) NOT NULL);
+
+CREATE TABLE Post(
+post_id DECIMAL(12) NOT NULL PRIMARY KEY,
+person_id DECIMAL(12) NOT NULL FOREIGN KEY REFERENCES Person(person_id),
+content VARCHAR(255) NOT NULL,
+created_on DATE NOT NULL,
+summary VARCHAR(13) NOT NULL);
+
+CREATE TABLE Likes(
+likes_id DECIMAL(12) NOT NULL,
+person_id DECIMAL(12) NOT NULL FOREIGN KEY REFERENCES Person(person_id),
+post_id DECIMAL(12) NOT NULL FOREIGN KEY REFERENCES Post(post_id),
+liked_on DATE);
+
+Sequence Creation
+
+CREATE SEQUENCE person_id_seq START WITH 1;
+CREATE SEQUENCE post_id_seq START WITH 1;
+CREATE SEQUENCE likes_id_seq START WITH 1;
+
+2. Initial Person inserts
+
+DECLARE @person_id_seq INT = NEXT VALUE FOR person_id_seq;
+INSERT INTO Person VALUES(@person_id_seq, 'John', 'Smith', 'JohnSmith');
+
+DECLARE @person_id_seq2 INT = NEXT VALUE FOR person_id_seq;
+INSERT INTO Person VALUES(@person_id_seq2, 'Jane', 'Smith', 'JaneSmith');
+
+DECLARE @person_id_seq3 INT = NEXT VALUE FOR person_id_seq;
+INSERT INTO Person VALUES(@person_id_seq3, 'George', 'Washington', 'GeorgeWashington');
+
+DECLARE @person_id_seq4 INT = NEXT VALUE FOR person_id_seq;
+INSERT INTO Person VALUES(@person_id_seq4, 'Abraham', 'Lincoln', 'AbrahamLincoln');
+
+DECLARE @person_id_seq5 INT = NEXT VALUE FOR person_id_seq;
+INSERT INTO Person VALUES(@person_id_seq5, 'Teddy', 'Roosevelt', 'TeddyRoosevelt');
+
+Inserting data into posts
+
+DECLARE @post_id_seq INT = NEXT VALUE FOR post_id_seq;
+INSERT INTO Post VALUES(@post_id_seq, 
+(SELECT person_id FROM Person WHERE username='JohnSmith'), 
+'Take a look at these new pics', '01-FEB-22', 'Take a loo...');
+
+DECLARE @post_id_seq2 INT = NEXT VALUE FOR post_id_seq;
+INSERT INTO Post VALUES(@post_id_seq2, 
+(SELECT person_id FROM Person WHERE username='JaneSmith'), 
+'Just arrived at the bahamas', '02-FEB-22', 'Just arriv...');
+
+DECLARE @post_id_seq3 INT = NEXT VALUE FOR post_id_seq;
+INSERT INTO Post VALUES(@post_id_seq3, 
+(SELECT person_id FROM Person WHERE username='GeorgeWashington'), 
+'Crossing the Delaware', '03-FEB-22', 'Crossing t...');
+
+DECLARE @post_id_seq4 INT = NEXT VALUE FOR post_id_seq;
+INSERT INTO Post VALUES(@post_id_seq4, 
+(SELECT person_id FROM Person WHERE username='AbrahamLincoln'), 
+'Signing peace at Appomattox Courthouse', '04-FEB-22', 'Signing pe...');
+
+DECLARE @post_id_seq5 INT = NEXT VALUE FOR post_id_seq;
+INSERT INTO Post VALUES(@post_id_seq5, 
+(SELECT person_id FROM Person WHERE username='TeddyRoosevelt'), 
+'Wrestling a bear', '05-FEB-22', 'Wrestling ...');
+
+DECLARE @post_id_seq6 INT = NEXT VALUE FOR post_id_seq;
+INSERT INTO Post VALUES(@post_id_seq6, 
+(SELECT person_id FROM Person WHERE username='GeorgeWashington'), 
+'Battle of Bunker Hill', '06-FEB-22', 'Battle of ...');
+
+DECLARE @post_id_seq7 INT = NEXT VALUE FOR post_id_seq;
+INSERT INTO Post VALUES(@post_id_seq7, 
+(SELECT person_id FROM Person WHERE username='AbrahamLincoln'), 
+'Gettysburg Address', '07-FEB-22', 'Gettysburg...');
+
+DECLARE @post_id_seq8 INT = NEXT VALUE FOR post_id_seq;
+INSERT INTO Post VALUES(@post_id_seq8, 
+(SELECT person_id FROM Person WHERE username='TeddyRoosevelt'), 
+'Taking the San Juan Hill', '08-FEB-22', 'Taking the...');
+
+IInserting data into likes
+
+DECLARE @likes_id_seq INT = NEXT VALUE FOR likes_id_seq;
+INSERT INTO Likes 
+VALUES(@likes_id_seq, 
+(SELECT person_id FROM Person WHERE username='JaneSmith'),
+(SELECT post_id FROM Post WHERE summary='Take a loo...'),
+'01-FEB-22')
+
+DECLARE @likes_id_seq2 INT = NEXT VALUE FOR likes_id_seq;
+INSERT INTO Likes 
+VALUES(@likes_id_seq2, 
+(SELECT person_id FROM Person WHERE username='GeorgeWashington'),
+(SELECT post_id FROM Post WHERE post_id=2),
+'02-FEB-22')
+
+DECLARE @likes_id_seq3 INT = NEXT VALUE FOR likes_id_seq;
+INSERT INTO Likes 
+VALUES(@likes_id_seq3, 
+(SELECT person_id FROM Person WHERE username='AbrahamLincoln'),
+(SELECT post_id FROM Post WHERE post_id=2),
+'03-FEB-22')
+
+DECLARE @likes_id_seq4 INT = NEXT VALUE FOR likes_id_seq;
+INSERT INTO Likes 
+VALUES(@likes_id_seq4, 
+(SELECT person_id FROM Person WHERE username='TeddyRoosevelt'),
+(SELECT post_id FROM Post WHERE post_id=2),
+'03-FEB-22')
+
+SELECT * FROM Likes;
+
+3. Add Specific person procedure
+
+CREATE OR ALTER PROCEDURE add_michelle_stella
+AS
+BEGIN
+DECLARE @person_id_seq INT = NEXT VALUE FOR person_id_seq;
+INSERT INTO Person VALUES (@person_id_seq, 'Michelle', 'Stella', 'MichelleStella');
+END;
+
+EXECUTE add_michelle_stella;
+
+4. Resuable person
+
+CREATE OR ALTER PROCEDURE add_person
+	@first_name VARCHAR(32),
+	@last_name VARCHAR(32)
+AS
+BEGIN
+DECLARE @person_id_seq INT = NEXT VALUE FOR person_id_seq;
+INSERT INTO Person VALUES(@person_id_seq, @first_name, @last_name, 
+(@first_name + @last_name));
+END;
+
+5. Derived post
+CREATE OR ALTER PROCEDURE add_post
+	@person_id DECIMAL(12),
+	@content VARCHAR(255),
+	@created_on DATE
+AS
+BEGIN
+	DECLARE @post_id_seq INT = NEXT VALUE FOR post_id_seq;
+	DECLARE @summary VARCHAR(13);
+	SET @summary = SUBSTRING(@content, 1, 10) + '...';
+INSERT INTO Post VALUES(@post_id_seq, @person_id, @content, @created_on, @summary);
+END;
+
+6. Lookup procedure
+
+CREATE OR ALTER PROCEDURE add_like
+	@post_id DECIMAL(12),
+	@liked_on DATE,
+	@username VARCHAR(20)
+AS
+BEGIN
+	DECLARE @like_id_seq INT = NEXT VALUE FOR likes_id_seq;
+	DECLARE @person_id INT = (SELECT person_id FROM Person WHERE username=@username);
+	INSERT INTO Likes VALUES(@like_id_seq, @person_id, @post_id, @liked_on);
+END;
+
+7. Triggers
+
+CREATE OR ALTER TRIGGER validate_summary_TRG
+ON Post AFTER INSERT
+AS
+BEGIN
+	DECLARE @summary_check VARCHAR(255);
+	SET @summary_check = (SELECT INSERTED.summary FROM INSERTED);
+	IF SUBSTRING(@summary_check, 11, 13) != '...' OR LEN(@summary_check) != 13
+	BEGIN
+		ROLLBACK;
+		RAISERROR('Must be 13 characters and end in ...', 14, 1);
+	END;
+END;
+
+DECLARE @post_id_seq INT = NEXT VALUE FOR post_id_seq;
+INSERT INTO Post(post_id, person_id, content, created_on, summary)
+VALUES (@post_id_seq, 7, '1234567890', '10-FEB-22', '1234567890...');
+
+SELECT * FROM Post;
+
+8. Dual table trigger (validate likes)
+
+CREATE OR ALTER TRIGGER validate_like_date_TRG
+ON Likes AFTER INSERT
+AS
+BEGIN
+	DECLARE @liked_on_check DATE;
+	SET @liked_on_check = (SELECT INSERTED.liked_on FROM INSERTED);
+	DECLARE @post_id DECIMAL(12);
+	SET @post_id = (SELECT INSERTED.post_id FROM INSERTED);
+	IF @liked_on_check < (SELECT created_on FROM Post WHERE post_id=@post_id)
+	BEGIN
+		ROLLBACK;
+		RAISERROR('Cannot create a like before its posted date!', 14, 1);
+	END;
+END;
+
+DECLARE @like_id_seq INT = NEXT VALUE FOR likes_id_seq;
+INSERT INTO Likes
+VALUES(@like_id_seq, 7, 4, '01-FEB-22');
+
+SELECT * FROM Likes;
+
+9. History table
+
+CREATE TABLE Post_History (
+history_id DECIMAL(20) PRIMARY KEY,
+old_content VARCHAR(255),
+post_id DECIMAL(12) FOREIGN KEY REFERENCES Post(post_id),
+change_date DATE
+);
+
+CREATE SEQUENCE history_id_seq START WITH 1;
+
+CREATE OR ALTER TRIGGER update_content_history
+ON Post AFTER UPDATE
+AS
+BEGIN
+	DECLARE @old_content VARCHAR(255) = (SELECT content FROM DELETED);
+	DECLARE @post_id DECIMAL(20) = (SELECT post_id FROM DELETED);
+	DECLARE @history_id DECIMAL(20) = NEXT VALUE FOR history_id_seq;
+
+	BEGIN
+		INSERT INTO Post_History(history_id, old_content, post_id, change_date)
+		VALUES(@history_id, @old_content, @post_id, GETDATE());
+	END;
+END;
+
+
