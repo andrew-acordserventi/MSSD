@@ -14,7 +14,7 @@ CS300 - Into to Software Development. Mostly computer systems and discrete mathe
 
 CS521 - Information Structures in Python. Data types, classes, arrays, strings, Object oriented programming, control structures, loops, methods, inheritance, polymorphism, exceptions, streams, etc. Taught in Python.
 
-CS526 - Data Structures and Algorithms. Computational problem solving, data structures, algorithms, runtime analysis (Big O), etc. Taught in Java.
+CS526 - Data Structures and Algorithms. Computational problem solving, data structures, algorithms, runtime analysis (Big O), etc. Taught in Java. One note here: this is an extremely difficult course, with many current developers dropping or needing to retake the course. My class lost about ~40% of enrollees due to the course difficult. Some might consider this course a weedout course.
 
 CS622 - Advanced Programming Techniques. Polymorphism, containers, libraries, method specifications, large-scale code management, use of exceptions, concurrent programming, functional programming, programming tests. Taught in Java.
 
