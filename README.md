@@ -1,9 +1,6 @@
 # Masters-in-Software-Development
 
 
-Currently seeking an entry-level developer or engineer position. Remote, or near Corpus Christi, TX only (cannot relocate).
-
-
 Building this repo to show potential employers samples of what I have worked on and coded over the past 2 years during my Master's in Software Development.
 
 
